@@ -1,0 +1,16 @@
+{
+ "name":"拾光自习",
+ "appid":"",
+ "description":"个人学习计划与每日打卡",
+ "versionName":"1.0.0",
+ "versionCode":"100",
+ "transformPx":false,
+ "vueVersion":"3",
+ "app-plus":{
+  "usingComponents":true,
+  "splashscreen":{"alwaysShowBeforeRender":true,"waiting":true,"autoclose":true,"delay":0},
+  "modules":{},
+  "distribute":{"android":{"packagename":"com.study.checkin","permissions":["<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>"]}}
+ },
+ "h5":{"title":"拾光自习","router":{"mode":"hash"}}
+}
