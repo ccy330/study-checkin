@@ -1,0 +1,29 @@
+name: Backend checks
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: integration-only-password
+          MYSQL_DATABASE: study_test
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -pintegration-only-password"
+          --health-interval=10s --health-timeout=5s --health-retries=10
+    defaults:
+      run:
+        working-directory: bankend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: bankend/go.mod
+          cache-dependency-path: bankend/go.sum
+      - run: go vet ./...
+      - run: go test -race -count=1 ./...
+        env:
+          TEST_MYSQL_DSN: root:integration-only-password@tcp(127.0.0.1:3306)/study_test?parseTime=true
+      - run: docker build -t study-checkin:ci .
